@@ -1,0 +1,602 @@
+/* =============================================================
+   WordPress LinkListe – Frontend-Styles
+   ============================================================= */
+
+/* ---------- Variablen ---------------------------------------- */
+:root {
+    --wll-primary:    #3498db;
+    --wll-primary-dk: #2980b9;
+    --wll-success:    #27ae60;
+    --wll-danger:     #e74c3c;
+    --wll-text:       #2c3e50;
+    --wll-text-light: #7f8c8d;
+    --wll-bg:         #f8f9fa;
+    --wll-card-bg:    #ffffff;
+    --wll-border:     #e9ecef;
+    --wll-radius:     10px;
+    --wll-shadow:     0 2px 12px rgba(0,0,0,.08);
+    --wll-shadow-hv:  0 6px 20px rgba(0,0,0,.14);
+    --wll-transition: .2s ease;
+}
+
+/* ---------- Wrapper ------------------------------------------ */
+.wll-wrapper {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--wll-text);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* ---------- Header ------------------------------------------- */
+.wll-header {
+    text-align: center;
+    padding: 40px 0 24px;
+}
+.wll-page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 8px;
+    color: var(--wll-text);
+}
+.wll-subtitle {
+    color: var(--wll-text-light);
+    margin: 0;
+}
+
+/* ---------- Such- & Filterbereich ----------------------------- */
+.wll-controls {
+    margin-bottom: 32px;
+}
+
+.wll-search-box {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto 20px;
+}
+.wll-search-box .wll-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 1rem;
+}
+.wll-search-box input {
+    width: 100%;
+    padding: 12px 44px 12px 42px;
+    border: 2px solid var(--wll-border);
+    border-radius: 50px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color var(--wll-transition), box-shadow var(--wll-transition);
+    box-sizing: border-box;
+}
+.wll-search-box input:focus {
+    border-color: var(--wll-primary);
+    box-shadow: 0 0 0 3px rgba(52,152,219,.15);
+}
+.wll-search-clear {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--wll-text-light);
+    font-size: 1rem;
+    padding: 0;
+    line-height: 1;
+}
+
+/* Kategorie-Filter */
+.wll-filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    justify-content: space-between;
+}
+.wll-category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.wll-cat-btn {
+    padding: 6px 16px;
+    border: 2px solid var(--cat-color, var(--wll-primary));
+    border-radius: 50px;
+    background: transparent;
+    color: var(--cat-color, var(--wll-primary));
+    cursor: pointer;
+    font-size: .875rem;
+    font-weight: 600;
+    transition: all var(--wll-transition);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.wll-cat-btn:hover,
+.wll-cat-btn.active {
+    background: var(--cat-color, var(--wll-primary));
+    color: #fff;
+}
+.wll-cat-btn .dashicons {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+}
+
+/* Sortierung */
+.wll-sort-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .875rem;
+    color: var(--wll-text-light);
+}
+.wll-sort-box select {
+    padding: 6px 10px;
+    border: 1px solid var(--wll-border);
+    border-radius: 6px;
+    background: var(--wll-card-bg);
+    font-size: .875rem;
+    cursor: pointer;
+}
+
+/* ---------- Karten-Grid -------------------------------------- */
+.wll-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+/* ---------- Karte -------------------------------------------- */
+.wll-card {
+    background: var(--wll-card-bg);
+    border: 1px solid var(--wll-border);
+    border-radius: var(--wll-radius);
+    box-shadow: var(--wll-shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform var(--wll-transition), box-shadow var(--wll-transition);
+    position: relative;
+}
+.wll-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--wll-shadow-hv);
+}
+
+.wll-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 3px 10px;
+    border-radius: 50px;
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 1;
+}
+.wll-badge .dashicons { font-size: 12px; width: 12px; height: 12px; }
+
+/* Vorschaubild */
+.wll-card-image {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    background: var(--wll-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.wll-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .4s ease;
+}
+.wll-card:hover .wll-card-image img { transform: scale(1.04); }
+.wll-favicon-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f0f4f8, #dfe6ed);
+}
+.wll-favicon-fallback img { width: 48px; height: 48px; }
+
+/* Karteninhalt */
+.wll-card-body {
+    padding: 16px 16px 8px;
+    flex: 1;
+}
+.wll-card-title {
+    margin: 0 0 4px;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+.wll-card-title a {
+    color: var(--wll-text);
+    text-decoration: none;
+    transition: color var(--wll-transition);
+}
+.wll-card-title a:hover { color: var(--wll-primary); }
+.wll-card-domain {
+    font-size: .8rem;
+    color: var(--wll-text-light);
+    margin: 0 0 8px;
+}
+.wll-card-bemerkung {
+    font-size: .875rem;
+    color: var(--wll-text-light);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Karten-Footer */
+.wll-card-footer {
+    padding: 12px 16px;
+    border-top: 1px solid var(--wll-border);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Sterne */
+.wll-stars {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+}
+.wll-star {
+    font-size: 1.25rem;
+    transition: color var(--wll-transition), transform var(--wll-transition);
+    line-height: 1;
+}
+.wll-star.filled  { color: #f39c12; }
+.wll-star.half    { color: #f39c12; opacity: .6; }
+.wll-star.empty   { color: #ddd; }
+.wll-stars:hover .wll-star { transform: scale(1.2); }
+.wll-rating-text  { font-size: .8rem; color: var(--wll-text-light); margin-left: 4px; }
+
+/* Meta */
+.wll-card-meta {
+    display: flex;
+    gap: 12px;
+    font-size: .8rem;
+    color: var(--wll-text-light);
+}
+
+/* Aktions-Buttons */
+.wll-card-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* ---------- Buttons ------------------------------------------ */
+.wll-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-size: .875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--wll-transition);
+    gap: 4px;
+}
+.wll-btn-primary {
+    background: var(--wll-primary);
+    color: #fff;
+    border-color: var(--wll-primary);
+    flex: 1;
+}
+.wll-btn-primary:hover {
+    background: var(--wll-primary-dk);
+    border-color: var(--wll-primary-dk);
+    color: #fff;
+}
+.wll-btn-copy {
+    padding: 8px 12px;
+    background: var(--wll-bg);
+    border: 1px solid var(--wll-border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background var(--wll-transition);
+}
+.wll-btn-copy:hover { background: var(--wll-border); }
+
+/* ---------- Lade-mehr / Pagination --------------------------- */
+.wll-pagination {
+    text-align: center;
+    margin: 16px 0 32px;
+}
+.wll-load-more {
+    padding: 12px 32px;
+    font-size: 1rem;
+    background: var(--wll-bg);
+    border: 2px solid var(--wll-primary);
+    color: var(--wll-primary);
+}
+.wll-load-more:hover {
+    background: var(--wll-primary);
+    color: #fff;
+}
+
+/* ---------- Spinner ------------------------------------------ */
+.wll-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 32px;
+    color: var(--wll-text-light);
+}
+.wll-spin-circle {
+    width: 28px;
+    height: 28px;
+    border: 3px solid var(--wll-border);
+    border-top-color: var(--wll-primary);
+    border-radius: 50%;
+    animation: wll-spin 0.8s linear infinite;
+}
+@keyframes wll-spin { to { transform: rotate(360deg); } }
+
+/* ---------- Keine Ergebnisse --------------------------------- */
+.wll-no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--wll-text-light);
+}
+.wll-no-results-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+
+/* ---------- Einreichen-Teaser -------------------------------- */
+.wll-submit-teaser {
+    text-align: center;
+    margin: 20px 0 40px;
+    padding: 20px;
+    background: linear-gradient(135deg, #eaf4fd, #dbeefa);
+    border-radius: var(--wll-radius);
+    font-size: .95rem;
+}
+.wll-submit-teaser a { color: var(--wll-primary); font-weight: 600; }
+
+/* ---------- Modal -------------------------------------------- */
+.wll-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: wll-fade-in .2s ease;
+}
+@keyframes wll-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+.wll-modal {
+    background: #fff;
+    border-radius: var(--wll-radius);
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+    animation: wll-slide-up .25s ease;
+}
+@keyframes wll-slide-up {
+    from { transform: translateY(30px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+.wll-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--wll-border);
+}
+.wll-modal-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+.wll-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--wll-text-light);
+    line-height: 1;
+    transition: color var(--wll-transition);
+    padding: 0;
+}
+.wll-modal-close:hover { color: var(--wll-danger); }
+
+.wll-modal-body {
+    padding: 24px;
+}
+.wll-modal-info {
+    background: #eaf4fd;
+    border-left: 4px solid var(--wll-primary);
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 20px;
+    font-size: .9rem;
+}
+
+/* Formular-Zeilen */
+.wll-form-row {
+    margin-bottom: 18px;
+}
+.wll-form-row label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: .9rem;
+}
+.wll-form-row input,
+.wll-form-row select,
+.wll-form-row textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid var(--wll-border);
+    border-radius: 6px;
+    font-size: .95rem;
+    transition: border-color var(--wll-transition), box-shadow var(--wll-transition);
+    box-sizing: border-box;
+    font-family: inherit;
+}
+.wll-form-row input:focus,
+.wll-form-row select:focus,
+.wll-form-row textarea:focus {
+    border-color: var(--wll-primary);
+    box-shadow: 0 0 0 3px rgba(52,152,219,.15);
+    outline: none;
+}
+.wll-form-row input.wll-invalid,
+.wll-form-row textarea.wll-invalid { border-color: var(--wll-danger); }
+.wll-field-error { font-size: .8rem; color: var(--wll-danger); display: block; margin-top: 4px; }
+
+.wll-category-select-wrap {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.wll-category-select-wrap select { flex: 1; min-width: 0; }
+
+.wll-btn-add-cat {
+    padding: 8px 12px;
+    background: var(--wll-bg);
+    border: 1.5px dashed var(--wll-primary);
+    border-radius: 6px;
+    color: var(--wll-primary);
+    cursor: pointer;
+    font-size: .875rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all var(--wll-transition);
+}
+.wll-btn-add-cat:hover { background: var(--wll-primary); color: #fff; }
+
+.wll-new-cat-input {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+.wll-new-cat-input input { flex: 1; min-width: 0; }
+
+.wll-char-count {
+    font-size: .78rem;
+    color: var(--wll-text-light);
+    display: block;
+    text-align: right;
+    margin-top: 2px;
+}
+
+.wll-image-preview {
+    margin-top: 8px;
+    border-radius: 6px;
+    overflow: hidden;
+    max-height: 140px;
+}
+.wll-image-preview img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+/* Feedback */
+.wll-form-feedback {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: .9rem;
+    font-weight: 600;
+}
+.wll-form-feedback.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.wll-form-feedback.error   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+.wll-form-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* ---------- Top-Links-Widget --------------------------------- */
+.wll-top-links-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.wll-top-link-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--wll-border);
+    font-size: .9rem;
+}
+.wll-top-link-item:last-child { border-bottom: none; }
+.wll-top-rank {
+    font-weight: 700;
+    color: var(--wll-primary);
+    min-width: 22px;
+}
+.wll-top-link-item a { flex: 1; color: var(--wll-text); text-decoration: none; }
+.wll-top-link-item a:hover { color: var(--wll-primary); }
+.wll-top-views { font-size: .8rem; color: var(--wll-text-light); }
+
+/* ---------- Toast-Benachrichtigungen ------------------------- */
+#wll-toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+}
+.wll-toast {
+    background: #2c3e50;
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: .875rem;
+    animation: wll-toast-in .3s ease forwards;
+    pointer-events: auto;
+    box-shadow: var(--wll-shadow-hv);
+    max-width: 300px;
+}
+.wll-toast.success { background: var(--wll-success); }
+.wll-toast.error   { background: var(--wll-danger); }
+@keyframes wll-toast-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Responsive --------------------------------------- */
+@media (max-width: 600px) {
+    .wll-grid { grid-template-columns: 1fr; }
+    .wll-filter-row { flex-direction: column; align-items: flex-start; }
+    .wll-form-actions { flex-direction: column; }
+}

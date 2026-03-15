@@ -1,0 +1,160 @@
+Erstelle ein vollständiges WordPress-Plugin namens "WordPress LinkListe" (Ordnername: wordpress-linkliste).
+
+Das Plugin verwaltet eine kuratierte Linkliste mit den folgenden Anforderungen:
+
+─────────────────────────────────────────────
+PFLICHTFELDER FÜR JEDEN LINK
+─────────────────────────────────────────────
+• URL (Link) – Pflichtfeld, muss eine gültige HTTP/HTTPS-URL sein
+• Name – Pflichtfeld, kurzer beschreibender Titel (max. 255 Zeichen)
+• Kategorie – Dropdown aus einer eigenen Datenbanktabelle; Benutzer können
+  im Einreichungsformular auch neue Kategorien vorschlagen
+• Bemerkung – Optionaler Textbereich (max. 1000 Zeichen)
+• Bild-URL – Optionale URL zu einem Vorschaubild; mit Live-Vorschau
+  im Formular (kann per Einstellung deaktiviert werden)
+
+─────────────────────────────────────────────
+GENEHMIGUNGSPROZESS
+─────────────────────────────────────────────
+• Neue Links werden mit Status "pending" gespeichert und sind im Frontend
+  NICHT sichtbar, bis ein Admin sie genehmigt.
+• Der Admin erhält eine E-Mail-Benachrichtigung bei jeder neuen Einreichung.
+• Im Admin-Backend gibt es eine eigene Seite "Ausstehend" mit Badge
+  (Anzahl ausstehender Links) im Seitenmenü.
+• Genehmigung und Ablehnung per AJAX (ohne Seitenreload).
+
+─────────────────────────────────────────────
+FRONTEND
+─────────────────────────────────────────────
+• Linkliste als responsives Karten-Grid (CSS Grid, auto-fill, min 280px)
+• Echtzeit-Suche (debounced, 300 ms) über Name, URL und Bemerkung
+• Kategorie-Filter als Schaltflächen mit eigener Farbe pro Kategorie
+• Sortierung: Neueste, Name A-Z, Meistaufgerufen, Beste Bewertung
+• "Mehr laden"-Button (AJAX, kein Seitenreload, Pagination)
+• Jede Karte zeigt: Name, Domain, Bemerkung (2 Zeilen), Vorschaubild oder Favicon,
+  Kategorie-Badge, Sternebewertung (1-5), Aufrufzähler, Datum
+• Button "Besuchen" (öffnet neues Tab) und "Kopieren"-Button (Clipboard API)
+• Einreichungsformular in einem modalen Dialogfenster
+• Möglichkeit, direkt im Modal eine neue Kategorie anzulegen
+• Toast-Benachrichtigungen (Erfolg/Fehler) am unteren rechten Bildschirmrand
+• Shortcode [wll_top_links count="5"] für ein Sidebar-Widget
+
+─────────────────────────────────────────────
+SHORTCODES
+─────────────────────────────────────────────
+• [wll_linkliste]                          – Vollständige Linkliste
+• [wll_linkliste per_page="6" category_id="2"] – Mit Parametern
+• [wll_submit_form]                        – Einreichungsformular allein
+• [wll_top_links count="5"]                – Top-Links-Widget
+
+─────────────────────────────────────────────
+ADMIN-BACKEND
+─────────────────────────────────────────────
+• Hauptmenüpunkt "LinkListe" mit Dashicons-Symbol (dashicons-admin-links)
+• Untermenü-Seiten:
+  1. Alle Links – Tabelle mit Status-Tabs, Suche, Pagination
+  2. Ausstehend  – Schnellgenehmigung, Badge im Menü
+  3. Kategorien  – Erstellen/Bearbeiten/Löschen, Farbwähler, Dashicon-Klasse
+  4. Einstellungen – Links pro Seite, Bilder erlauben, E-Mail-Benachrichtigungen,
+     Seitentitel, Shortcode-Referenz
+
+─────────────────────────────────────────────
+DATENBANK
+─────────────────────────────────────────────
+Tabelle 1: {prefix}wll_links
+  id, url, name, category_id, bemerkung, image_url,
+  status ENUM('pending','approved','rejected'),
+  views, rating_sum, rating_count, submitted_by,
+  created_at, updated_at
+
+Tabelle 2: {prefix}wll_categories
+  id, name, slug, description, icon, color, sort_order, created_at
+
+• Tabellen per dbDelta() bei Plugin-Aktivierung anlegen
+• 6 Standard-Kategorien einfügen (Technologie, Nachrichten, Unterhaltung,
+  Bildung, Soziale Medien, Sonstiges)
+
+─────────────────────────────────────────────
+AJAX-ENDPUNKTE
+─────────────────────────────────────────────
+Öffentlich:
+  wll_submit_link   – Link einreichen (Duplikat-Check, Validierung)
+  wll_track_click   – Aufrufzähler erhöhen
+  wll_rate_link     – Sternebewertung speichern (einmalig per Session)
+  wll_load_links    – Links mit Filtern laden (Suche, Kategorie, Sort)
+  wll_add_category  – Neue Kategorie anlegen
+
+Admin (nur eingeloggt):
+  wll_approve_link  – Status auf 'approved' setzen
+  wll_reject_link   – Status auf 'rejected' setzen
+  wll_delete_link   – Link dauerhaft löschen
+
+─────────────────────────────────────────────
+DATEISTRUKTUR
+─────────────────────────────────────────────
+wordpress-linkliste/
+├── wordpress-linkliste.php
+├── includes/
+│   ├── class-wll-database.php
+│   ├── class-wll-post-type.php
+│   ├── class-wll-shortcodes.php
+│   └── class-wll-ajax.php
+├── admin/
+│   ├── class-wll-admin.php
+│   └── views/
+│       ├── page-all-links.php
+│       ├── page-pending.php
+│       ├── page-categories.php
+│       └── page-settings.php
+├── frontend/
+│   ├── class-wll-frontend.php
+│   └── templates/
+│       ├── linkliste.php
+│       ├── link-cards.php
+│       ├── submit-form.php
+│       └── top-links.php
+└── assets/
+    ├── css/
+    │   ├── frontend.css
+    │   └── admin.css
+    └── js/
+        ├── frontend.js
+        └── admin.js
+
+─────────────────────────────────────────────
+TECHNISCHE VORGABEN
+─────────────────────────────────────────────
+• PHP: WordPress Coding Standards, keine direkten SQL-Injektionen
+  (ausschließlich $wpdb->prepare())
+• JavaScript: ES5-kompatibel, jQuery (bereits in WordPress enthalten),
+  IIFE-Pattern, wp_localize_script() für AJAX-URLs und Nonces
+• CSS: CSS Custom Properties (Variablen), BEM-ähnliche Klassen mit
+  Präfix wll-, responsiv (Mobile-First)
+• Sicherheit: Nonce-Prüfung bei allen AJAX-Anfragen,
+  current_user_can('manage_options') bei Admin-Aktionen,
+  Sanitisierung aller Eingaben, Escaping aller Ausgaben
+• Internationalisierung: alle Texte per __() / _e() mit
+  Text-Domain 'wordpress-linkliste'
+• Templates überschreibbar: {theme}/wll-templates/{name}.php
+
+─────────────────────────────────────────────
+KREATIVE ZUSATZFUNKTIONEN (bereits implementiert)
+─────────────────────────────────────────────
+• Favicon-Fallback via Google S2 Favicons API, wenn kein Bild vorhanden
+• Automatische Duplikat-Erkennung beim Einreichen (gleiche URL)
+• Aufrufzähler mit visuellem Counter auf der Karte
+• Sternebewertung einmalig pro Session (via $_SESSION)
+• Clipboard API für URL-Kopieren mit Toast-Bestätigung
+• Kartenanimation beim Hover (translateY + box-shadow)
+• Modal per Escape-Taste schließbar
+• Echtzeit-Zeichenzähler im Bemerkungsfeld
+• Kategorie-Farbcode im Badge auf der Karte
+• Admin-Badge mit Anzahl ausstehender Links
+• E-Mail-Benachrichtigung mit direktem Link zur Genehmigungsseite
+
+─────────────────────────────────────────────
+VERSIONIERUNG (für KI-Assistenten)
+─────────────────────────────────────────────
+Bei jedem Commit die Version in README.md und in wordpress-linkliste.php
+um 0.1 erhöhen.
+Aktuell: 1.0 → nächster Commit: 1.1
