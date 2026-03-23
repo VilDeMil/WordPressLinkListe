@@ -3,7 +3,7 @@ Erstelle ein vollständiges WordPress-Plugin namens "WordPress LinkListe" (Ordne
 Das Plugin verwaltet eine kuratierte Linkliste mit den folgenden Anforderungen:
 
 ─────────────────────────────────────────────
-PFLICHTFELDER FÜR JEDEN LINK
+FELDER FÜR JEDEN LINK
 ─────────────────────────────────────────────
 • URL (Link) – Pflichtfeld, muss eine gültige HTTP/HTTPS-URL sein
 • Name – Pflichtfeld, kurzer beschreibender Titel (max. 255 Zeichen)
