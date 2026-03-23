@@ -95,8 +95,10 @@ class WLL_Ajax {
             wp_send_json_error( array( 'message' => __( 'Fehler beim Speichern des Links.', 'wordpress-linkliste' ) ) );
         }
 
-        // Admin-Benachrichtigungs-E-Mail
-        self::notify_admin_new_link( $name, $url );
+        // Admin-Benachrichtigungs-E-Mail (nur wenn Einstellung aktiv)
+        if ( '1' === get_option( 'wll_notify_admin', '1' ) ) {
+            self::notify_admin_new_link( $name, $url );
+        }
 
         wp_send_json_success( array(
             'message' => __( 'Dein Link wurde eingereicht und wird nach Prüfung freigeschaltet. Danke!', 'wordpress-linkliste' ),
@@ -123,6 +125,11 @@ class WLL_Ajax {
             wp_send_json_error( array( 'message' => 'Ungültige Bewertung.' ) );
         }
 
+        // Session zuerst starten (AJAX-Requests durchlaufen wp_head nicht)
+        if ( ! session_id() ) {
+            session_start();
+        }
+
         // Verhindere doppelte Bewertungen per Session
         $rated_key = 'wll_rated_' . $link_id;
         if ( isset( $_SESSION[ $rated_key ] ) ) {
@@ -130,10 +137,6 @@ class WLL_Ajax {
         }
 
         WLL_Database::add_rating( $link_id, $rating );
-
-        if ( ! session_id() ) {
-            session_start();
-        }
         $_SESSION[ $rated_key ] = true;
 
         wp_send_json_success( array( 'message' => __( 'Bewertung gespeichert!', 'wordpress-linkliste' ) ) );

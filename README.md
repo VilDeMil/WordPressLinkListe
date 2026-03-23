@@ -1,6 +1,6 @@
 # WordPress LinkListe
 
-**Version 1.0**
+**Version 1.1**
 
 Ein WordPress-Plugin zur Verwaltung einer kuratierten Linkliste – mit Frontend-Einreichung, Genehmigungsprozess, Kategorien, Bewertungen, Suche und einem vollständigen Admin-Backend.
 

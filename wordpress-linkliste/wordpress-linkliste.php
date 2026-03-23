@@ -3,7 +3,7 @@
  * Plugin Name: WordPress LinkListe
  * Plugin URI:  https://github.com/VilDeMil/WordPressLinkListe
  * Description: Verwalte eine kuratierte Linkliste mit Frontend-Einreichung, Kategorien, Bildern und Suche. Neue Einträge müssen zuerst genehmigt werden.
- * Version:     1.0.0
+ * Version:     1.1.0
  * Author:      VilDeMil
  * License:     GPL-2.0+
  * Text Domain: wordpress-linkliste
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'WLL_VERSION',    '1.0.0' );
+define( 'WLL_VERSION',    '1.1.0' );
 define( 'WLL_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WLL_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
